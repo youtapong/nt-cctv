@@ -40,3 +40,7 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+# local env files & user readme docs
+.env
+tong_readme.txt
