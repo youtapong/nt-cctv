@@ -62,17 +62,13 @@ export const organizationRoutes = new Elysia({ prefix: "/organization" })
         const org_name = body.org_name;
         const org_type = body.org_type || "";
         const now = new Date();
-        const created_at = now;
-        
-        // Base64 of org_name,org_type,created_at
-        const tokenData = `${org_name},${org_type},${created_at.toISOString()}`;
-        const org_token = Buffer.from(tokenData).toString("base64");
 
+        // 1. Insert temporary record first to generate org_id & created_at
         const insertData: Record<string, any> = {
           ...body,
-          org_token,
+          org_token: "", // temporary placeholder
           updated: now,
-          created_at,
+          created_at: now,
         };
 
         const allowedColumns = ["org_name", "org_type", "contact_info", "org_token", "updated", "created_at"];
@@ -80,8 +76,25 @@ export const organizationRoutes = new Elysia({ prefix: "/organization" })
           (key) => insertData[key] !== undefined && allowedColumns.includes(key)
         );
 
-        const [newOrg] = await sql`
+        const [tempOrg] = await sql`
           INSERT INTO "organizations" ${sql(insertData, ...insertKeys)}
+          RETURNING org_id, org_name, org_type, contact_info, created_at
+        `;
+
+        // 2. Generate org_token containing org_id
+        const org_id = tempOrg.org_id;
+        const createdAtStr = tempOrg.created_at instanceof Date 
+          ? tempOrg.created_at.toISOString() 
+          : new Date(tempOrg.created_at).toISOString();
+        
+        const tokenData = `${org_id},${org_name},${org_type},${createdAtStr}`;
+        const org_token = Buffer.from(tokenData).toString("base64");
+
+        // 3. Update the record with computed org_token
+        const [newOrg] = await sql`
+          UPDATE "organizations"
+          SET org_token = ${org_token}, updated = ${now}
+          WHERE org_id = ${org_id}
           RETURNING org_id, org_name, org_type, contact_info, org_token, updated, created_at
         `;
 
@@ -110,7 +123,7 @@ export const organizationRoutes = new Elysia({ prefix: "/organization" })
       try {
         // Fetch existing organization to get name, type, and created_at for token calculation
         const [existingOrg] = await sql`
-          SELECT org_name, org_type, created_at FROM "organizations" WHERE org_id = ${id}
+          SELECT org_id, org_name, org_type, created_at FROM "organizations" WHERE org_id = ${id}
         `;
         if (!existingOrg) {
           return { success: false, error: "ไม่พบข้อมูลหน่วยงาน/องค์กรที่ต้องการอัปเดต" };
@@ -123,7 +136,8 @@ export const organizationRoutes = new Elysia({ prefix: "/organization" })
           ? existingOrg.created_at.toISOString() 
           : new Date(existingOrg.created_at).toISOString();
 
-        const tokenData = `${org_name},${org_type},${createdAtStr}`;
+        // Include id (org_id) in token calculation
+        const tokenData = `${id},${org_name},${org_type},${createdAtStr}`;
         const org_token = Buffer.from(tokenData).toString("base64");
 
         const now = new Date();
