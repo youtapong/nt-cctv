@@ -34,9 +34,19 @@ export const authPlugin = new Elysia({ name: "auth" })
       return { user: null };
     }
   })
-  .onBeforeHandle({ as: "global" }, ({ user, set }) => {
-    if (!user) {
-      set.status = 401;
-      return { success: false, error: "Unauthorized: Invalid or missing token" };
+  .onBeforeHandle({ as: "global" }, ({ request, user, set }) => {
+    if (user) {
+      return;
     }
+
+    const url = new URL(request.url);
+    const pathname = url.pathname.replace(/\/+$/, "");
+    const isPublicCreateUserRoute = request.method === "POST" && pathname === "/user";
+
+    if (isPublicCreateUserRoute) {
+      return;
+    }
+
+    set.status = 401;
+    return { success: false, error: "Unauthorized: Invalid or missing token" };
   });
