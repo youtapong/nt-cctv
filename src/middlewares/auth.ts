@@ -43,8 +43,10 @@ export const authPlugin = new Elysia({ name: "auth" })
     const pathname = url.pathname.replace(/\/+$/, "");
 
     const isPublicUserRoute =
-      pathname === "/user" ||
-      pathname.startsWith("/user/");
+      (request.method === "POST" && pathname === "/user") ||
+      (request.method === "GET" && (pathname === "/user" || pathname.startsWith("/user/"))) ||
+      (request.method === "POST" && pathname === "/organization") ||
+      (request.method === "GET" && (pathname === "/organization" || pathname.startsWith("/organization/")));
 
     if (isPublicUserRoute) {
       return;
