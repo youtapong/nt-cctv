@@ -14,6 +14,9 @@ const app = new Elysia()
   // 1. เรียกใช้งาน Swagger plugin
   .use(
     swagger({
+      scalarConfig: {
+        theme: "deepSpace",
+      },
       documentation: {
         info: {
           title: "NT-CCTV API Documentation",

@@ -104,7 +104,8 @@ export const userRoutes = new Elysia({ prefix: "/user" })
         );
 
         const [newUser] = await sql`
-          INSERT INTO "user" ${sql(insertData, ...insertKeys)}
+         
+        INSERT INTO "user" ${sql(insertData, ...insertKeys)}
           RETURNING id, username, firstname, lastname, email, role, status, authorize_token, created, updated
         `;
         return { success: true, data: newUser };

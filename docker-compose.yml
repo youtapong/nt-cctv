@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nt-cctv-api:
     build: .
-    container_name: nt-cctv-api
+    container_name: cctv-api
     restart: always
     ports:
       - "3000:3000"
