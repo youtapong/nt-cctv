@@ -1,0 +1,434 @@
+@if (!isLoggedIn) {
+  <main class="login-shell">
+    <section class="login-panel" aria-labelledby="login-title">
+      <div class="login-icon" aria-hidden="true">
+        <svg lucideShieldCheck></svg>
+      </div>
+      <h1 id="login-title">Video Surveillance System</h1>
+      <p>Please login to continue</p>
+
+      <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm">
+        <label for="username">Username:</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          [(ngModel)]="loginUsername"
+          required
+        />
+
+        <label for="password">Password:</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          [(ngModel)]="loginPassword"
+          required
+        />
+
+        @if (loginError) {
+          <p class="form-error" role="alert">{{ loginError }}</p>
+        }
+
+        <button class="primary-button login-button" type="submit" [disabled]="loginForm.invalid">
+          <svg lucideLogIn aria-hidden="true"></svg>
+          <span>Login</span>
+        </button>
+      </form>
+    </section>
+  </main>
+} @else {
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-block">
+          <svg lucideCctv aria-hidden="true"></svg>
+          <h1>Video Surveillance Search System</h1>
+        </div>
+
+        <div class="session-block">
+          <span>Logged in as: {{ currentUser?.username }} ({{ currentUser?.role }})</span>
+          <button class="ghost-button" type="button" (click)="logout()">
+            <svg lucideLogOut aria-hidden="true"></svg>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="tool-panel search-panel" aria-labelledby="search-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="search-title">Search Criteria</h2>
+            <p>เงื่อนไขการค้นหาคลิป</p>
+          </div>
+          <svg lucideSearch aria-hidden="true"></svg>
+        </div>
+
+        <form class="search-form" (ngSubmit)="search()">
+          <div class="field">
+            <label for="cameraName">Camera Name:</label>
+            <div class="combo-field" [class.open]="activeDropdown === 'cameraName'">
+              <input
+                id="cameraName"
+                name="cameraName"
+                type="text"
+                autocomplete="off"
+                [(ngModel)]="searchForm.cameraName"
+                (focus)="openDropdown('cameraName')"
+                (keydown.enter)="commitComboInput('cameraName')"
+                (ngModelChange)="onComboTyping('cameraName')"
+                required
+              />
+              <button
+                class="combo-toggle"
+                type="button"
+                aria-label="Open camera options"
+                (mousedown)="$event.preventDefault()"
+                (click)="toggleDropdown('cameraName')"
+              >
+                <svg lucideChevronDown aria-hidden="true"></svg>
+              </button>
+              @if (activeDropdown === 'cameraName') {
+                <div class="combo-menu" role="listbox">
+                  @for (option of getComboOptions('cameraName'); track option) {
+                    <button
+                      class="combo-option"
+                      type="button"
+                      role="option"
+                      (mousedown)="$event.preventDefault()"
+                      (click)="selectComboOption('cameraName', option)"
+                    >
+                      {{ option }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="year">Year:</label>
+            <input
+              id="year"
+              name="year"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              [(ngModel)]="searchForm.year"
+              (keydown.enter)="commitComboInput('year')"
+              (ngModelChange)="onYearTyping()"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="month">Month:</label>
+            <div class="combo-field" [class.open]="activeDropdown === 'month'">
+              <input
+                id="month"
+                name="month"
+                type="text"
+                autocomplete="off"
+                [(ngModel)]="searchForm.month"
+                (focus)="openDropdown('month')"
+                (keydown.enter)="commitComboInput('month')"
+                (ngModelChange)="onComboTyping('month')"
+                required
+              />
+              <button
+                class="combo-toggle"
+                type="button"
+                aria-label="Open month options"
+                (mousedown)="$event.preventDefault()"
+                (click)="toggleDropdown('month')"
+              >
+                <svg lucideChevronDown aria-hidden="true"></svg>
+              </button>
+              @if (activeDropdown === 'month') {
+                <div class="combo-menu" role="listbox">
+                  @for (option of getComboOptions('month'); track option) {
+                    <button
+                      class="combo-option"
+                      type="button"
+                      role="option"
+                      (mousedown)="$event.preventDefault()"
+                      (click)="selectComboOption('month', option)"
+                    >
+                      {{ option }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="day">Day:</label>
+            <div class="combo-field" [class.open]="activeDropdown === 'day'">
+              <input
+                id="day"
+                name="day"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                [(ngModel)]="searchForm.day"
+                (focus)="openDropdown('day')"
+                (keydown.enter)="commitComboInput('day')"
+                (ngModelChange)="onComboTyping('day')"
+                required
+              />
+              <button
+                class="combo-toggle"
+                type="button"
+                aria-label="Open day options"
+                (mousedown)="$event.preventDefault()"
+                (click)="toggleDropdown('day')"
+              >
+                <svg lucideChevronDown aria-hidden="true"></svg>
+              </button>
+              @if (activeDropdown === 'day') {
+                <div class="combo-menu" role="listbox">
+                  @for (option of getComboOptions('day'); track option) {
+                    <button
+                      class="combo-option"
+                      type="button"
+                      role="option"
+                      (mousedown)="$event.preventDefault()"
+                      (click)="selectComboOption('day', option)"
+                    >
+                      {{ option }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="hour">Hour:</label>
+            <div class="combo-field" [class.open]="activeDropdown === 'hour'">
+              <input
+                id="hour"
+                name="hour"
+                type="text"
+                inputmode="numeric"
+                placeholder="-- Select Hour --"
+                autocomplete="off"
+                [(ngModel)]="searchForm.hour"
+                (focus)="openDropdown('hour')"
+                (keydown.enter)="commitComboInput('hour')"
+                (ngModelChange)="onComboTyping('hour')"
+              />
+              <button
+                class="combo-toggle"
+                type="button"
+                aria-label="Open hour options"
+                (mousedown)="$event.preventDefault()"
+                (click)="toggleDropdown('hour')"
+              >
+                <svg lucideChevronDown aria-hidden="true"></svg>
+              </button>
+              @if (activeDropdown === 'hour') {
+                <div class="combo-menu" role="listbox">
+                  @for (option of getComboOptions('hour'); track option) {
+                    <button
+                      class="combo-option"
+                      type="button"
+                      role="option"
+                      (mousedown)="$event.preventDefault()"
+                      (click)="selectComboOption('hour', option)"
+                    >
+                      {{ option }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="minute">Minute (optional):</label>
+            <div class="combo-field" [class.open]="activeDropdown === 'minute'">
+              <input
+                id="minute"
+                name="minute"
+                type="text"
+                inputmode="numeric"
+                placeholder="-- Select Minute --"
+                autocomplete="off"
+                [(ngModel)]="searchForm.minute"
+                (focus)="openDropdown('minute')"
+                (keydown.enter)="commitComboInput('minute')"
+                (ngModelChange)="onComboTyping('minute')"
+              />
+              <button
+                class="combo-toggle"
+                type="button"
+                aria-label="Open minute options"
+                (mousedown)="$event.preventDefault()"
+                (click)="toggleDropdown('minute')"
+              >
+                <svg lucideChevronDown aria-hidden="true"></svg>
+              </button>
+              @if (activeDropdown === 'minute') {
+                <div class="combo-menu" role="listbox">
+                  @for (option of getComboOptions('minute'); track option) {
+                    <button
+                      class="combo-option"
+                      type="button"
+                      role="option"
+                      (mousedown)="$event.preventDefault()"
+                      (click)="selectComboOption('minute', option)"
+                    >
+                      {{ option }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          @if (searchError) {
+            <p class="search-error" role="alert">{{ searchError }}</p>
+          }
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit" (click)="search(); $event.preventDefault()">
+              <svg lucideSearch aria-hidden="true"></svg>
+              <span>Search</span>
+            </button>
+            <button class="secondary-button" type="button" (click)="clearSearch()">
+              <svg lucideEraser aria-hidden="true"></svg>
+              <span>Clear</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="results-layout">
+        <div class="tool-panel results-panel" aria-labelledby="results-title">
+          <div class="section-heading compact">
+            <div>
+              <h2 id="results-title">Search Results</h2>
+              <p>ผลลัพธ์ {{ results.length }} คลิป</p>
+            </div>
+            <svg lucideFileVideo aria-hidden="true"></svg>
+          </div>
+
+          @if (!hasSearched) {
+            <div class="empty-state">
+              <svg lucideSearch aria-hidden="true"></svg>
+              <strong>Ready for search</strong>
+              <span>เลือกเงื่อนไขด้านบนแล้วกด Search</span>
+            </div>
+          } @else if (results.length === 0) {
+            <div class="empty-state">
+              <svg lucideFileVideo aria-hidden="true"></svg>
+              <strong>No clips found</strong>
+              <span>ไม่พบคลิปที่ตรงกับเงื่อนไขนี้</span>
+            </div>
+          } @else {
+            <div class="clip-list" role="list">
+              @for (clip of results; track clip.id) {
+                <button
+                  class="clip-item"
+                  type="button"
+                  role="listitem"
+                  [class.active]="selectedClip?.id === clip.id"
+                  (click)="selectClip(clip)"
+                >
+                  <span class="clip-time">
+                    <svg lucideClock aria-hidden="true"></svg>
+                    {{ formatTime(clip.timestamp) }}
+                  </span>
+                  <span class="clip-detail">
+                    <strong>{{ clip.cameraName }}</strong>
+                    <small>{{ formatDateTime(clip.timestamp) }}</small>
+                  </span>
+                  <span class="clip-duration">{{ clip.duration }}</span>
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="tool-panel player-panel" aria-labelledby="player-title">
+          <div class="section-heading compact">
+            <div>
+              <h2 id="player-title">Video Player</h2>
+              <p>{{ selectedClip ? selectedClip.fileName : 'ยังไม่ได้เลือกคลิป' }}</p>
+            </div>
+            <svg lucidePlay aria-hidden="true"></svg>
+          </div>
+
+          @if (selectedClip) {
+            <div class="video-frame">
+              <video
+                [src]="selectedClip.videoUrl"
+                controls
+                preload="metadata"
+                (error)="markVideoUnavailable()"
+              ></video>
+              @if (videoUnavailable) {
+                <div class="video-status" role="status">
+                  <svg lucideFileVideo aria-hidden="true"></svg>
+                  <span>Mock video file ยังไม่ถูกวางใน public/mock-clips</span>
+                </div>
+              }
+            </div>
+
+            <a
+              [href]="selectedClip.videoUrl"
+              [download]="selectedClip.fileName"
+              class="primary-button download-button"
+              style="margin: 1rem auto 0.5rem auto; width: 50%; display: flex; justify-content: center; align-items: center; gap: 0.5rem; text-decoration: none; box-sizing: border-box; font-size: 0.85rem; padding: 0.5rem 1rem;"
+            >
+              <svg lucideDownload aria-hidden="true"></svg>
+              <span>Download Video</span>
+            </a>
+
+            <div class="video-url-container" style="text-align: center; margin: 0 auto 1.5rem auto; width: 75%; box-sizing: border-box;">
+              <span style="font-size: 0.72rem; color: #888; display: block; margin-bottom: 0.25rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;">Direct Link</span>
+              <code style="font-size: 0.72rem; background: #fafafa; color: #444; padding: 0.4rem 0.6rem; border-radius: 6px; word-break: break-all; display: inline-block; width: 100%; border: 1px solid #eaeaea; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; box-sizing: border-box; text-align: left;">
+                {{ getAbsoluteUrl(selectedClip.videoUrl) }}
+              </code>
+            </div>
+
+            <dl class="clip-meta">
+              <div>
+                <dt>Camera</dt>
+                <dd>{{ selectedClip.cameraName }}</dd>
+              </div>
+              <div>
+                <dt>Location</dt>
+                <dd>{{ getCameraMeta(selectedClip.cameraName) }}</dd>
+              </div>
+              <div>
+                <dt>Date Time</dt>
+                <dd>{{ formatDateTime(selectedClip.timestamp) }}</dd>
+              </div>
+              <div>
+                <dt>Duration</dt>
+                <dd>{{ selectedClip.duration }}</dd>
+              </div>
+            </dl>
+          } @else {
+            <div class="empty-state player-empty">
+              <svg lucidePlay aria-hidden="true"></svg>
+              <strong>No clip selected</strong>
+              <span>ยังไม่มีคลิปสำหรับแสดงผล</span>
+            </div>
+          }
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      © 2026 Video Surveillance Management System. All rights reserved.
+    </footer>
+  </div>
+}

@@ -1,0 +1,12 @@
+services:
+  video_server:
+    image: youtapong/ntcctv:1.2 # ดึงภาพตรงจาก Docker Hub (เวอร์ชัน 1.2)
+    container_name: video_server
+    ports:
+      - "3003:80" 
+    volumes:
+      - /mnt/data/video:/mnt/data/video
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Bangkok
+    restart: always

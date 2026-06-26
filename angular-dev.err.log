@@ -1,0 +1,163 @@
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:74:67:
+[37m      74 │ ...="cameraName" name="cameraName" [(ngModel)]="[32mcriteria[37m.cameraName">
+         ╵                                                 [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:74:67:
+[37m      74 │ ...="cameraName" name="cameraName" [(ngModel)]="[32mcriteria[37m.cameraName">
+         ╵                                                 [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:85:55:
+[37m      85 │ ...r" name="year" [(ngModel)]="[32mcriteria[37m.year" (ngModelChange)="onD...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:85:55:
+[37m      85 │ ...r" name="year" [(ngModel)]="[32mcriteria[37m.year" (ngModelChange)="onD...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:94:57:
+[37m      94 │ ..." name="month" [(ngModel)]="[32mcriteria[37m.month" (ngModelChange)="on...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:94:57:
+[37m      94 │ ..." name="month" [(ngModel)]="[32mcriteria[37m.month" (ngModelChange)="on...
+         ╵                                [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:103:53:
+[37m      103 │             <select id="day" name="day" [(ngModel)]="[32mcriteria[37m.day">
+          ╵                                                      [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:103:53:
+[37m      103 │             <select id="day" name="day" [(ngModel)]="[32mcriteria[37m.day">
+          ╵                                                      [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:112:55:
+[37m      112 │ ...       <select id="hour" name="hour" [(ngModel)]="[32mcriteria[37m.hour">
+          ╵                                                      [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:112:55:
+[37m      112 │ ...       <select id="hour" name="hour" [(ngModel)]="[32mcriteria[37m.hour">
+          ╵                                                      [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:122:59:
+[37m      122 │ ... <select id="minute" name="minute" [(ngModel)]="[32mcriteria[37m.minute">
+          ╵                                                    [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'criteria' does not exist on type 'App'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.html:122:59:
+[37m      122 │ ... <select id="minute" name="minute" [(ngModel)]="[32mcriteria[37m.minute">
+          ╵                                                    [32m~~~~~~~~[0m
+
+  Error occurs in the template of component App.
+
+    src/app/app.ts:44:15:
+[37m      44 │   templateUrl: [32m'./app.html'[37m,
+         ╵                [32m~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: LucideChevronDown is not used within the template of App[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.ts:37:4:
+[37m      37 │     [32mLucideChevronDown[37m,
+         ╵     [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
